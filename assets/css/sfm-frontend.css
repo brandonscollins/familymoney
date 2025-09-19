@@ -1,0 +1,612 @@
+/**
+ * Frontend Styles for Strategicli Family Money plugin.
+ * Applies styles to transaction forms, allowance display, and modal.
+ *
+ * @package StrategicliFamilyMoney
+ */
+
+/* --- General Styling and Variables --- */
+.sfm-wrapper {
+    --primary-color: #2c3e50; /* Dark blue/grey for accents */
+    --secondary-color: #3498db; /* A vibrant blue for interactive elements */
+    --background-color: #ffffff;
+    --text-color: #333333;
+    --border-color: #888888; /* Slightly darker border for more contrast */
+    --success-color: #28a745; /* Green for success messages */
+    --error-color: #dc3545;   /* Red for error messages */
+    --info-color: #007bff;    /* Blue for info messages */
+    --card-background: #f0f0f0; /* Slightly darker light grey for card-like elements */
+    --hover-background: #e9ecef;
+    --negative-balance-color: #dc3545; /* Red for negative balances */
+    --positive-balance-color: #28a745; /* Green for positive balances */
+    font-family: 'Inter', sans-serif; /* Consistent font with other Strategicli widgets */
+    border-radius: 8px; /* Rounded corners */
+    padding: 20px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Stronger shadow for more lift */
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid var(--border-color); /* IMPORTANT: Increased border thickness to 2px */
+}
+
+/* Dark Mode Support */
+body.sfm-dark-mode .sfm-wrapper,
+.sfm-wrapper.sfm-dark-mode {
+    --background-color: #2a2a2a; /* Slightly lighter dark background */
+    --text-color: #ffffff;
+    --border-color: #666666; /* Darker border for dark mode */
+    --card-background: #3a3a3a; /* Darker cards */
+    --hover-background: #4a4a4a;
+    --primary-color: #a0a0a0; /* Lighter grey for dark mode accents */
+    --secondary-color: #6da2ff; /* Slightly lighter blue for dark mode */
+}
+
+/* --- Form Styles (for [sfm_transaction_form]) --- */
+.sfm-form-wrapper {
+    background-color: var(--background-color);
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sfm-form-title {
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 1.8em;
+    font-weight: 600;
+}
+
+.sfm-form-group {
+    margin-bottom: 18px;
+}
+
+.sfm-form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.sfm-form-wrapper input[type="text"],
+.sfm-form-wrapper input[type="number"],
+.sfm-form-wrapper select,
+.sfm-form-wrapper textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color); /* Use variable for consistency */
+    border-radius: 6px;
+    background-color: var(--card-background); /* Use card background for fields */
+    color: var(--text-color); /* Ensure text color is legible */
+    font-size: 1em;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.sfm-form-wrapper select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23333333" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    padding-right: 30px;
+    color: var(--text-color) !important; 
+    background-color: var(--card-background) !important;
+}
+
+body.sfm-dark-mode .sfm-form-wrapper select {
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23ffffff" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    color: var(--text-color) !important;
+    background-color: var(--card-background) !important;
+}
+
+.sfm-form-wrapper select option {
+    background-color: var(--card-background) !important;
+    color: var(--text-color) !important;
+}
+
+body.sfm-dark-mode .sfm-form-wrapper select option {
+    background-color: var(--card-background) !important;
+    color: var(--text-color) !important;
+}
+
+.sfm-form-wrapper input[type="text"]:focus,
+.sfm-form-wrapper input[type="number"]:focus,
+.sfm-form-wrapper select:focus,
+.sfm-form-wrapper textarea:focus {
+    border-color: var(--secondary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.sfm-submit-button {
+    display: block;
+    width: 100%;
+    padding: 14px 20px;
+    background-color: var(--secondary-color);
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+}
+
+.sfm-submit-button:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+.sfm-submit-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+.sfm-message {
+    padding: 12px;
+    margin-top: 15px;
+    border-radius: 6px;
+    font-weight: 500;
+    text-align: center;
+    display: none; /* Hidden by default, faded in by JS */
+    transition: opacity 0.3s ease;
+}
+
+.sfm-message.sfm-success {
+    background-color: #d4edda;
+    color: var(--success-color);
+    border: 1px solid #c3e6cb;
+}
+
+.sfm-message.sfm-error {
+    background-color: #f8d7da;
+    color: var(--error-color);
+    border: 1px solid #f5c6cb;
+}
+
+.sfm-message.sfm-info {
+    background-color: #d1ecf1;
+    color: var(--info-color);
+    border: 1px solid #bee5eb;
+}
+
+/* Link styling inside messages */
+.sfm-message a {
+    color: var(--info-color);
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.sfm-message a:hover {
+    color: #0056b3;
+}
+
+/* Dark Mode styles for messages */
+body.sfm-dark-mode .sfm-message.sfm-error,
+.sfm-wrapper.sfm-dark-mode .sfm-message.sfm-error {
+    background-color: #572a31; /* Dark red background */
+    color: #f8d7da; /* Light pink/red text */
+    border-color: #e58a93;
+}
+
+body.sfm-dark-mode .sfm-message.sfm-error a,
+.sfm-wrapper.sfm-dark-mode .sfm-message.sfm-error a {
+    color: #90caf9; /* Light blue for links in dark mode */
+}
+
+body.sfm-dark-mode .sfm-message.sfm-error a:hover,
+.sfm-wrapper.sfm-dark-mode .sfm-message.sfm-error a:hover {
+    color: #e3f2fd;
+}
+
+/* --- Allowance Display Styles --- */
+.sfm-allowance-display-wrapper {
+    background-color: var(--background-color);
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 20px;
+    position: relative;
+}
+
+.sfm-display-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.sfm-display-title {
+    color: var(--primary-color);
+    margin-bottom: 0;
+    font-size: 1.8em;
+    font-weight: 600;
+    flex-grow: 1;
+    text-align: center;
+}
+
+/* Refresh Button Styles */
+.sfm-refresh-button {
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.sfm-refresh-button.sfm-is-refreshing .dashicons {
+    animation: sfm-spin 1s linear infinite;
+}
+
+@keyframes sfm-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.sfm-refresh-button:hover {
+    background-color: var(--hover-background);
+    color: var(--secondary-color);
+    transform: rotate(15deg);
+}
+
+.sfm-refresh-button:active {
+    transform: scale(0.95);
+}
+
+.sfm-refresh-button .dashicons {
+    font-size: 22px;
+    width: 22px;
+    height: 22px;
+    color: var(--primary-color);
+    transition: color 0.2s ease;
+}
+
+body.sfm-dark-mode .sfm-refresh-button .dashicons {
+    color: var(--primary-color);
+}
+
+body.sfm-dark-mode .sfm-refresh-button,
+.sfm-wrapper.sfm-dark-mode .sfm-refresh-button {
+    border-color: var(--border-color);
+    box-shadow: none;
+}
+
+.sfm-child-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sfm-child-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    background-color: var(--card-background);
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sfm-child-item:hover {
+    background-color: var(--hover-background);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.sfm-child-name {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.sfm-child-balance {
+    font-size: 1.4em;
+    font-weight: 700;
+    cursor: pointer;
+    color: var(--positive-balance-color);
+    transition: color 0.3s ease;
+}
+
+.sfm-child-balance.sfm-negative-balance {
+    color: var(--negative-balance-color);
+}
+
+/* --- Modal Styles --- */
+.sfm-modal {
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease;
+}
+
+.sfm-modal-content {
+    background-color: var(--background-color);
+    margin: auto;
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    position: relative;
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.sfm-modal-close {
+    color: var(--primary-color);
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 32px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.sfm-modal-close:hover,
+.sfm-modal-close:focus {
+    color: var(--secondary-color);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#sfm-modal-title {
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.6em;
+    font-weight: 600;
+}
+
+.sfm-modal-body {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+#sfm-modal-transactions {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sfm-transaction-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px dashed var(--border-color);
+    font-size: 0.95em;
+    color: var(--text-color);
+}
+
+.sfm-transaction-item:last-child {
+    border-bottom: none;
+}
+
+.sfm-transaction-date {
+    flex: 0 0 120px;
+    font-weight: 500;
+    color: var(--primary-color);
+}
+
+.sfm-transaction-reason {
+    flex-grow: 1;
+    margin: 0 10px;
+    text-align: left;
+}
+
+.sfm-transaction-amount {
+    flex: 0 0 80px;
+    font-weight: 700;
+    text-align: right;
+}
+
+.sfm-transaction-amount.sfm-positive {
+    color: var(--positive-balance-color);
+}
+
+.sfm-transaction-amount.sfm-negative {
+    color: var(--negative-balance-color);
+}
+
+.sfm-loading-message,
+.sfm-no-transactions,
+.sfm-error-message {
+    text-align: center;
+    padding: 20px;
+    color: var(--text-color);
+    font-style: italic;
+}
+
+.sfm-modal-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+}
+
+.sfm-modal-pagination button {
+    padding: 10px 20px;
+    background-color: var(--secondary-color);
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    box-shadow: 0 2px 4px rgba(52, 152, 219, 0.2);
+}
+
+.sfm-modal-pagination button:hover:not(:disabled) {
+    background-color: #2980b9;
+    transform: translateY(-1px);
+}
+
+.sfm-modal-pagination button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+    box-shadow: none;
+    transform: none;
+}
+
+/* --- Confirmation Modal Specific Styles --- */
+.sfm-success-modal-content {
+    text-align: center;
+    max-width: 400px; /* Make success modal smaller */
+}
+
+.sfm-success-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background-color: var(--success-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sfm-success-icon svg {
+    fill: #ffffff;
+    width: 36px;
+    height: 36px;
+}
+
+#sfm-confirmation-title {
+    color: var(--success-color);
+    font-size: 1.8em;
+    margin: 0 0 10px;
+}
+
+#sfm-confirmation-message {
+    font-size: 1.1em;
+    color: var(--text-color);
+}
+
+/* Prevent body scrolling when history modal is open */
+body.sfm-modal-open {
+    overflow: hidden;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+    .sfm-form-wrapper,
+    .sfm-allowance-display-wrapper {
+        padding: 20px;
+    }
+
+    .sfm-display-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .sfm-display-title {
+        text-align: left;
+        margin-bottom: 10px;
+    }
+
+    .sfm-refresh-button {
+        position: static;
+        transform: none;
+        align-self: flex-end;
+        margin-top: -10px;
+    }
+
+    .sfm-child-item {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 12px 15px;
+    }
+
+    .sfm-child-name {
+        margin-bottom: 5px;
+    }
+
+    .sfm-child-balance {
+        width: 100%;
+        text-align: right;
+    }
+
+    .sfm-modal-content {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .sfm-modal-close {
+        font-size: 28px;
+        top: 10px;
+        right: 15px;
+    }
+
+    #sfm-modal-title {
+        font-size: 1.4em;
+    }
+
+    .sfm-transaction-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .sfm-transaction-date,
+    .sfm-transaction-reason,
+    .sfm-transaction-amount {
+        width: 100%;
+        text-align: left;
+        margin: 0;
+        padding: 2px 0;
+    }
+
+    .sfm-transaction-amount {
+        text-align: right;
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .sfm-form-wrapper,
+    .sfm-allowance-display-wrapper {
+        padding: 15px;
+    }
+
+    .sfm-form-title,
+    .sfm-display-title {
+        font-size: 1.3em;
+    }
+
+    .sfm-modal-content {
+        padding: 15px;
+    }
+}
